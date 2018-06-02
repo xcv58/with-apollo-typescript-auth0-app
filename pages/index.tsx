@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import Auth from './Auth'
+import Auth from '../libs/Auth'
 
 const auth = new Auth()
 
