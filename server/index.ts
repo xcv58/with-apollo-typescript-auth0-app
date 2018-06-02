@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 // const session = require('express-session');
 const path = require('path')
 const next = require('next')
+// import next from 'next';
 
 const dev = process.env.NODE_ENV !== 'production'
 // const pathMatch = require('path-match');
