@@ -1,107 +1,68 @@
-// import { createServer } from 'http'
-// import { parse } from 'url'
 import express from 'express';
-import * as next from 'next';
-import { ApolloServer, gql } from 'apollo-server';
-// const { registerServer } = require('apollo-server-express');
+import bodyParser from 'body-parser';
+import next from 'next';
+import { parse } from 'url';
 
-// This is a (sample) collection of books we'll be able to query
-// the GraphQL server for.  A more complete example might fetch
-// from an existing data source like a REST API or database.
-const books = [
-  {
-    title: 'Harry Potter and the Chamber of Secrets',
-    author: 'J.K. Rowling'
-  },
-  {
-    title: 'Jurassic Park',
-    author: 'Michael Crichton'
-  }
-];
+// const session = require('express-session');
+import path from 'path';
 
-// Type definitions define the "shape" of your data and specify
-// which ways the data can be fetched from the GraphQL server.
-const typeDefs = gql`
-  # Comments in GraphQL are defined with the hash (#) symbol.
-
-  # This "Book" type can be used in other type declarations.
-  type Book {
-    title: String
-    author: String
-  }
-
-  # The "Query" type is the root of all GraphQL queries.
-  # (A "Mutation" type will be covered later on.)
-  type Query {
-    books: [Book]
-  }
-`;
-
-// Resolvers define the technique for fetching the types in the
-// schema.  We'll retrieve books from the "books" array above.
-const resolvers = {
-  Query: {
-    books: () => books
-  }
-};
-
-// In the most basic sense, the ApolloServer can be started
-// by passing type definitions (typeDefs) and the resolvers
-// responsible for fetching the data for those types.
-const apolloServer = new ApolloServer({ typeDefs, resolvers });
-
-const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== 'production';
+// const pathMatch = require('path-match');
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
+// const apiRoutes = require('./server/routes/apiRoutes.js');
+
 app.prepare().then(() => {
-  // This `listen` method launches a web-server. Existing apps
-  // can utilize middleware options, which we'll discuss later.
-  // server.listen().then(({ url }) => {
-  //   console.log(`🚀  Server ready at ${url}`);
-  // });
-
   const server = express();
-  console.log(apolloServer);
-  // registerServer({ apolloServer, server })
-  server.get('/a', (req, res) => {
-    return app.render(req, res, '/b', req.query);
+
+  server.use(bodyParser.json());
+  // server.use(
+  //   session({
+  //     secret: 'super-secret-key',
+  //     resave: false,
+  //     saveUninitialized: false,
+  //     cookie: { maxAge: 60000 }
+  //   })
+  // );
+
+  // server.use('/api', apiRoutes);
+
+  // Server-side
+  // const route = pathMatch()
+
+  server.get('/search', (req, res) => {
+    return app.render(req, res, '/search', req.query);
   });
 
-  server.get('/b', (req, res) => {
-    return app.render(req, res, '/a', req.query);
-  });
+  // server.get('/artist/:id', (req, res) => {
+  //   const params = route('/artist/:id')(parse(req.url).pathname)
+  //   return app.render(req, res, '/artist', params)
+  // })
 
-  server.get('/posts/:id', (req, res) => {
-    return app.render(req, res, '/posts', {
-      id: req.params.id
-    });
-  });
+  // server.get('/album/:id', (req, res) => {
+  //   const params = route('/album/:id')(parse(req.url).pathname)
+  //   return app.render(req, res, '/album', params)
+  // })
 
   server.get('*', (req, res) => {
     return handle(req, res);
   });
 
-  server.listen(port, err => {
+  /* eslint-disable no-console */
+  server.listen(3000, err => {
     if (err) throw err;
-    console.log(`> Ready on http://localhost:${port}`);
+    console.log('Server ready on http://localhost:3000');
   });
-
-  // createServer((req, res) => {
-  //   const parsedUrl = parse(req.url, true)
-  //   const { pathname, query } = parsedUrl
-  //
-  //   if (pathname === '/a') {
-  //     app.render(req, res, '/a', query)
-  //   } else if (pathname === '/b') {
-  //     app.render(req, res, '/b', query)
-  //   } else {
-  //     handle(req, res, parsedUrl)
-  //   }
-  // })
-  // .listen(port, (err) => {
-  //   if (err) throw err
-  //   console.log(`> Ready on http://localhost:${port}`)
-  // })
 });
+
+// import { createServer } from 'http';
+// import { parse } from 'url';
+// import express from 'express';
+// import * as next from 'next';
+// // const { registerServer } = require('apollo-server-express');
+//
+// const port = parseInt(process.env.PORT, 10) || 3000;
+// const dev = process.env.NODE_ENV !== 'production';
+// const app = next({ dev });
+// const handle = app.getRequestHandler();
