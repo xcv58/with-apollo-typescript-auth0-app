@@ -1,22 +1,21 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import next from 'next';
-import { parse } from 'url';
-
+const express = require('express')
+const bodyParser = require('body-parser')
 // const session = require('express-session');
-import path from 'path';
+const path = require('path')
+const next = require('next')
 
-const dev = process.env.NODE_ENV !== 'production';
+const dev = process.env.NODE_ENV !== 'production'
 // const pathMatch = require('path-match');
-const app = next({ dev });
-const handle = app.getRequestHandler();
+const app = next({ dev })
+const handle = app.getRequestHandler()
+const { parse } = require('url')
 
 // const apiRoutes = require('./server/routes/apiRoutes.js');
 
 app.prepare().then(() => {
-  const server = express();
+  const server = express()
 
-  server.use(bodyParser.json());
+  server.use(bodyParser.json())
   // server.use(
   //   session({
   //     secret: 'super-secret-key',
@@ -32,8 +31,8 @@ app.prepare().then(() => {
   // const route = pathMatch()
 
   server.get('/search', (req, res) => {
-    return app.render(req, res, '/search', req.query);
-  });
+    return app.render(req, res, '/search', req.query)
+  })
 
   // server.get('/artist/:id', (req, res) => {
   //   const params = route('/artist/:id')(parse(req.url).pathname)
@@ -46,15 +45,15 @@ app.prepare().then(() => {
   // })
 
   server.get('*', (req, res) => {
-    return handle(req, res);
-  });
+    return handle(req, res)
+  })
 
   /* eslint-disable no-console */
   server.listen(3000, err => {
-    if (err) throw err;
-    console.log('Server ready on http://localhost:3000');
-  });
-});
+    if (err) throw err
+    console.log('Server ready on http://localhost:3000')
+  })
+})
 
 // import { createServer } from 'http';
 // import { parse } from 'url';
