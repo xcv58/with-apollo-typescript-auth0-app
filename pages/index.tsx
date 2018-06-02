@@ -5,15 +5,23 @@ import Auth from '../libs/Auth'
 const auth = new Auth()
 
 export default class App extends React.Component {
-  componentDidMount () {
+  componentDidMount() {
     auth.login()
   }
 
-  render () {
+  render() {
     return (
       <ul>
-        <li><Link href='/a' as='/a'><a>a</a></Link></li>
-        <li><Link href='/b' as='/b'><a>b</a></Link></li>
+        <li>
+          <Link href="/a" as="/a">
+            <a>a</a>
+          </Link>
+        </li>
+        <li>
+          <Link href="/b" as="/b">
+            <a>b</a>
+          </Link>
+        </li>
       </ul>
     )
   }
