@@ -29,13 +29,6 @@
     "ts-node": "^6.0.5"
   },
   "lint-staged": {
-    "*.{js,ts,tsx}": [
-      "yarn prettier",
-      "git add"
-    ],
-    "*.{json,css,md}": [
-      "yarn prettier",
-      "git add"
-    ]
+    "*.{ts,tsx,js,json,css,md}": ["yarn prettier", "git add"]
   }
 }
