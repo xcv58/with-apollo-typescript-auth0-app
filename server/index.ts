@@ -1,20 +1,19 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-// const session = require('express-session');
 const path = require('path')
 const next = require('next')
-// import next from 'next';
+const apolloServer = require('./apollo')
+const { parse } = require('url')
+import { resolvers as schema } from './apollo'
 
 const dev = process.env.NODE_ENV !== 'production'
-// const pathMatch = require('path-match');
+const port = parseInt(process.env.PORT, 10) || 3000
 const app = next({ dev })
 const handle = app.getRequestHandler()
-const { parse } = require('url')
-
-// const apiRoutes = require('./server/routes/apiRoutes.js');
 
 app.prepare().then(() => {
   const server = express()
+  // console.log({ apolloServer, app: server })
 
   server.use(bodyParser.json())
   // server.use(
@@ -31,38 +30,20 @@ app.prepare().then(() => {
   // Server-side
   // const route = pathMatch()
 
-  server.get('/search', (req, res) => {
-    return app.render(req, res, '/search', req.query)
+  server.get('/a', (req, res) => {
+    return app.render(req, res, '/a', req.query)
   })
 
-  // server.get('/artist/:id', (req, res) => {
-  //   const params = route('/artist/:id')(parse(req.url).pathname)
-  //   return app.render(req, res, '/artist', params)
-  // })
-
-  // server.get('/album/:id', (req, res) => {
-  //   const params = route('/album/:id')(parse(req.url).pathname)
-  //   return app.render(req, res, '/album', params)
-  // })
+  server.get('/b', (req, res) => {
+    return app.render(req, res, '/b', req.query)
+  })
 
   server.get('*', (req, res) => {
     return handle(req, res)
   })
 
-  /* eslint-disable no-console */
-  server.listen(3000, err => {
+  server.listen(port, err => {
     if (err) throw err
-    console.log('Server ready on http://localhost:3000')
+    console.log(`Server ready on http://localhost:${port}`)
   })
 })
-
-// import { createServer } from 'http';
-// import { parse } from 'url';
-// import express from 'express';
-// import * as next from 'next';
-// // const { registerServer } = require('apollo-server-express');
-//
-// const port = parseInt(process.env.PORT, 10) || 3000;
-// const dev = process.env.NODE_ENV !== 'production';
-// const app = next({ dev });
-// const handle = app.getRequestHandler();
