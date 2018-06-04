@@ -1,20 +1,41 @@
 import React from 'react'
 import Link from 'next/link'
-import Auth from './Auth'
-
-const auth = new Auth()
+import auth0 from '../libs/Auth'
 
 export default class App extends React.Component {
-  componentDidMount () {
-    auth.login()
+  componentDidMount() {
+    if (!auth0.isAuthenticated()) {
+      auth0.login()
+    }
   }
 
-  render () {
+  componentDidUpdate() {
+    if (!auth0.isAuthenticated()) {
+      auth0.login()
+    }
+  }
+
+  render() {
+    const name = localStorage.getItem('name')
     return (
-      <ul>
-        <li><Link href='/a' as='/a'><a>a</a></Link></li>
-        <li><Link href='/b' as='/b'><a>b</a></Link></li>
-      </ul>
+      <>
+        <ul>
+          <li>
+            <Link href="/a" as="/a">
+              <a>a</a>
+            </Link>
+          </li>
+          <li>
+            <Link href="/b" as="/b">
+              <a>b</a>
+            </Link>
+          </li>
+        </ul>
+        <div>
+          Hello {name}!
+          <button onClick={auth0.logout}>Logout</button>
+        </div>
+      </>
     )
   }
 }
