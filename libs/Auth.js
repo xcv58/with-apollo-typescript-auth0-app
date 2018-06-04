@@ -1,13 +1,13 @@
 import auth0 from 'auth0-js'
 import Router from 'next/router'
 
-const { location: { origin } = {} } = window || {}
+const { location: { origin } = {} } = global.window || {}
 
 export class Auth {
   auth0 = new auth0.WebAuth({
     domain: 'xcv58.auth0.com',
     clientID: 'WLbItnzWfincjGWEcDamyHFoqnF3vYyI',
-    redirectUri: `${window.location.origin}/callback`,
+    redirectUri: `${origin}/callback`,
     audience: 'https://xcv58.auth0.com/userinfo',
     responseType: 'token id_token',
     scope: 'openid profile email'
