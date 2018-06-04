@@ -3,9 +3,14 @@ import Link from 'next/link'
 import auth0 from '../libs/Auth'
 
 export default class App extends React.Component {
+  state = { name: '' }
+
   componentDidMount() {
     if (!auth0.isAuthenticated()) {
       auth0.login()
+    } else {
+      const name = localStorage.getItem('name')
+      this.setState({ name })
     }
   }
 
@@ -16,7 +21,6 @@ export default class App extends React.Component {
   }
 
   render() {
-    const name = localStorage.getItem('name')
     return (
       <>
         <ul>
@@ -32,7 +36,7 @@ export default class App extends React.Component {
           </li>
         </ul>
         <div>
-          Hello {name}!
+          Hello {this.state.name}!
           <button onClick={auth0.logout}>Logout</button>
         </div>
       </>
