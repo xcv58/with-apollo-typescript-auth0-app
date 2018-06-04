@@ -5,7 +5,7 @@ export class Auth {
   auth0 = new auth0.WebAuth({
     domain: 'xcv58.auth0.com',
     clientID: 'WLbItnzWfincjGWEcDamyHFoqnF3vYyI',
-    redirectUri: 'http://localhost:3000/callback',
+    redirectUri: `${window.location.origin}/callback`,
     audience: 'https://xcv58.auth0.com/userinfo',
     responseType: 'token id_token',
     scope: 'openid profile email'
