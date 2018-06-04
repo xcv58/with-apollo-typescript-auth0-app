@@ -8,7 +8,7 @@ export class Auth {
     redirectUri: 'http://localhost:3000/callback',
     audience: 'https://xcv58.auth0.com/userinfo',
     responseType: 'token id_token',
-    scope: 'openid'
+    scope: 'openid profile email'
   })
 
   login = () => {
@@ -32,12 +32,13 @@ export class Auth {
 
   setSession = authResult => {
     // Set the time that the Access Token will expire at
-    let expiresAt = JSON.stringify(
-      authResult.expiresIn * 1000 + new Date().getTime()
-    )
-    localStorage.setItem('access_token', authResult.accessToken)
-    localStorage.setItem('id_token', authResult.idToken)
+    const { accessToken, idToken, idTokenPayload, expiresIn } = authResult
+    const { name } = idTokenPayload
+    let expiresAt = JSON.stringify(expiresIn * 1000 + new Date().getTime())
+    localStorage.setItem('access_token', accessToken)
+    localStorage.setItem('id_token', idToken)
     localStorage.setItem('expires_at', expiresAt)
+    localStorage.setItem('name', name)
     // navigate to the home route
     Router.replace('/')
   }

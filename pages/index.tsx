@@ -16,6 +16,7 @@ export default class App extends React.Component {
   }
 
   render() {
+    const name = localStorage.getItem('name')
     return (
       <>
         <ul>
@@ -30,7 +31,10 @@ export default class App extends React.Component {
             </Link>
           </li>
         </ul>
-        <button onClick={auth0.logout}>Logout</button>
+        <div>
+          Hello {name}!
+          <button onClick={auth0.logout}>Logout</button>
+        </div>
       </>
     )
   }
