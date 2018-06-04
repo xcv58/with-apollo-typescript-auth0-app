@@ -1,6 +1,8 @@
 import auth0 from 'auth0-js'
 import Router from 'next/router'
 
+const { location: { origin } = {} } = window || {}
+
 export class Auth {
   auth0 = new auth0.WebAuth({
     domain: 'xcv58.auth0.com',
